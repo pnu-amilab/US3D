@@ -1,70 +1,84 @@
-# US3D
+# MoGLo-Net
 
-**Enhancing Free-hand 3D Photoacoustic and Ultrasound Reconstruction using Deep Learning**  
-(link: [https://ieeexplore.ieee.org/document/11036110](https://ieeexplore.ieee.org/document/11036110))
+**Enhancing Free-Hand 3-D Photoacoustic and Ultrasound Reconstruction Using Deep Learning**  
+*IEEE Transactions on Medical Imaging*, 44(11), 4652–4665, 2025
 
----
+MoGLo-Net estimates six-degree-of-freedom probe motion from consecutive B-mode ultrasound images, without an external tracking sensor. It combines patch-wise feature correlation, global-local attention, and recurrent motion estimation. Predicted scan trajectories are used for 3D reconstruction of ultrasound, power Doppler, and photoacoustic images.
 
-## 📁 Project Structure
-
-```
-US3D─── data/
-    ├── rec/
-    └── src/
-        ├── utils/
-        ├── networks/
-        └── options/
-```
+[**Paper**](https://doi.org/10.1109/TMI.2025.3579454)
 
 ---
 
-## 🐳 Docker (Strongly Recommended)
+### Architecture
 
-This project depends on several complex libraries, including `pytorch3d`, which is notoriously difficult to install manually.
+![MoGLo-Net architecture](fig/fig_DL_Model.png)
 
-To avoid dependency issues, we **strongly recommend** using the following Docker image:
+### Qualitative Results
+
+**B-mode (in-house)**
+![3D ultrasound trajectory comparison 1](fig/fig_US3D_B.png)
+
+**B-mode (public)**
+![3D ultrasound trajectory comparison 2](fig/fig_US3D_T1.png)
+
+**Power Doppler**
+![3D power Doppler reconstruction](fig/fig_US3D_D.png)
+
+**Photoacoustic imaging**
+![3D photoacoustic vascular reconstruction](fig/fig_US3D_P.png)
+
+---
+
+## 1. Environment
+
+The repository includes a Docker-based environment for dependencies such as PyTorch3D.
 
 ```bash
+# From the host
 docker pull guhong3648/guhong:v1
 ```
 
----
+The repository also contains a `requirements.txt` file. It reflects the original research environment and includes environment-specific package references, so the Docker image is the simpler starting point.
 
-## ⚠️ About the Provided Sample Data
+## 2. Data
 
-- The provided sample dataset is **very limited** and **not suitable** for proper training, validation, or testing.
-- It is intended **only for verifying that data loading, model training, and inference pipelines work correctly**.
-- We plan to release an **extended dataset** with over **30 subjects** in the near future.
+The `data/` directory contains a small sample intended to check the data-loading and execution pipeline. **It is not the full dataset used for the paper's training or evaluation.**
 
----
+The public freehand ultrasound dataset used in the study is available from [Zenodo](https://zenodo.org/records/7740734), with preprocessing details in the [UCL CANDI repository](https://github.com/ucl-candi/freehand). We used the central `320 × 320` region of the original `480 × 640` B-mode frames.
 
-## 📂 Public Dataset Used in Our Paper
+For the public dataset, see:
 
-Also, we used the following public dataset:
+Q. Li et al., "Trackerless Freehand Ultrasound with Sequence Modelling and Auxiliary Transformation over Past and Future Frames," *IEEE ISBI*, 2023. [DOI](https://doi.org/10.1109/ISBI53787.2023.10230773).
 
-> Qi Li, Ziyi Shen, Qian Li, Dean C. Barratt, Thomas Dowrick, Matthew J. Clarkson, Tom Vercauteren, and Yipeng Hu.  
-> _"Trackerless freehand ultrasound with sequence modelling and auxiliary transformation over past and future frames."_  
-> In **IEEE ISBI 2023**, pp. 1–5.  
-> DOI: [10.1109/ISBI53787.2023.10230773](https://doi.org/10.1109/ISBI53787.2023.10230773)  
-> Dataset: [https://zenodo.org/records/7740734](https://zenodo.org/records/7740734)
+## 3. Repository Structure
 
-We used the **central 320×320 region** cropped from each original 480×640 B-mode frame.
-
-For preprocessing scripts and more information, please refer to:  
-[https://github.com/ucl-candi/freehand/tree/main](https://github.com/ucl-candi/freehand/tree/main)
-
----
-If you use this code for any comparision experiments, please cite:
-```bibtex
-@article{lee2025us3d,
-  title     = {Enhancing Free-hand 3D Photoacoustic and Ultrasound Reconstruction using Deep Learning},
-  author    = {SiYeoul Lee and Seonho Kim and MinKyung Seo and SeongKyu Park and Salehin Imrus and Kambaluru Ashok and DongEon Lee and Chunsu Park and SeonYeong Lee and Jiye Kim and Jae-Heung Yoo and MinWoo Kim},
-  journal   = {IEEE Transactions on Medical Imaging},
-  year      = {2025},
-  note      = {Early Access},
-  doi       = {INSERT_YOUR_DOI}}
+```text
+US3D/
+├── README.md
+├── fig/
+├── data/                 # Sample data
+├── src/                  # Model and experiment code
+├── res/                  # Results
+└── requirements.txt
 ```
 
-contact  
-For questions or feedback, please contact:
-SiYeoul Lee (guhong3648@pusan.ac.kr)
+## Citation
+
+If you use the code or results in your work, please cite:
+
+```bibtex
+@article{Lee_2025_MoGLo,
+  title   = {Enhancing Free-Hand 3-D Photoacoustic and Ultrasound Reconstruction Using Deep Learning},
+  author  = {Lee, SiYeoul and Kim, Seonho and Seo, MinKyung and Park, SeongKyu and Imrus, Salehin and Ashok, Kambaluru and Lee, DongEon and Park, Chunsu and Lee, SeonYeong and Kim, Jiye and Yoo, Jae-Heung and Kim, MinWoo},
+  journal = {IEEE Transactions on Medical Imaging},
+  volume  = {44},
+  number  = {11},
+  pages   = {4652--4665},
+  year    = {2025},
+  doi     = {10.1109/TMI.2025.3579454}
+}
+```
+
+## Contact
+
+SiYeoul Lee — guhong3648@naver.com
